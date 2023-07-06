@@ -2,6 +2,7 @@ const form = document.getElementById('search-form');
 const gallery = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
 
+let lightbox;
 let searchQuery = '';
 let page = 1;
 
@@ -83,4 +84,16 @@ function showLoadMoreButton() {
 
 function hideLoadMoreButton() {
   loadMoreButton.style.display = 'none';
+}
+
+function initLightbox() {
+  if (lightbox) {
+    lightbox.destroy();
+  }
+  lightbox = new SimpleLightbox('.gallery a', { 
+    captionsData: "alt",
+    captionDelay: 250,
+    showCounter: false,
+    close: false,
+  });
 }
