@@ -1,4 +1,4 @@
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import Notiflix, { Notify } from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import axios from 'axios';
 
@@ -20,7 +20,7 @@ async function handleSubmit(event) {
   currentQuery = form.searchQuery.value.trim();
 
   if (currentQuery === '') {
-    return;
+    return Notiflix.Notify.info('You pressed enter without entering anything, great!!!');
   }
 
   try {
@@ -51,11 +51,10 @@ async function searchImages(query, page) {
 function handleImagesResponse(images) {
   if (images.length === 0) {
     if (currentPage === 1) {
-      showMessage('Sorry, there are no images matching your search query. Please try again.');
+      return Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.');
     } else {
-      showMessage("We're sorry, but you've reached the end of search results.");
+      return Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
     }
-    return;
   }
 
   const cards = images.map((image) => createImageCard(image));
@@ -104,12 +103,8 @@ function createInfoItem(label, value) {
   return item;
 }
 
-function showMessage(message) {
-  Notiflix.Notify.failure(message);
-}
-
 function showTotalHitsMessage(totalHits) {
-  showMessage(`Hooray! We found ${totalHits} images.`);
+  return Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
 }
 
 function showLoadMoreButton() {
